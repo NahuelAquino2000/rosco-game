@@ -21,20 +21,21 @@ body {
     gap: 40px;
 }
 
-/* Contenedor del Rosco */
+/* Contenedor del Rosco - Más grande para que entren las letras separadas */
 .rosco-container {
     position: relative;
-    width: 350px;
-    height: 350px;
+    width: 550px;
+    height: 550px;
     margin: 0 auto;
 }
 
-/* Estilo base de todas las letras (color naranja inicial) */
+/* Letras del círculo - Más grandes */
 .letra {
     position: absolute;
-    width: 40px;
-    height: 40px;
-    background-color: #ff9800; /* Naranja inicial */
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem; /* Letra interior más grande */
+    background-color: #ff9800;
     color: white;
     font-weight: bold;
     border-radius: 50%;

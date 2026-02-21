@@ -8,11 +8,11 @@ const bloqueTextos = document.getElementById('bloque-textos');
 let indiceActual = 0;
 let estadoJuego = new Array(roscoData.length).fill('pendiente'); 
 
-// Dibujar el círculo perfecto
+// Dibujar el círculo perfecto (Más grande y separado)
 function inicializarRosco() {
-    const radio = 160; 
-    const centroX = 175; 
-    const centroY = 175; 
+    const radio = 220;   // Aumentamos la distancia desde el centro (antes era 160)
+    const centroX = 275; // Mitad del nuevo ancho del contenedor (550 / 2)
+    const centroY = 275; // Mitad del nuevo alto del contenedor
     const totalLetras = roscoData.length;
 
     roscoData.forEach((item, index) => {
@@ -22,8 +22,10 @@ function inicializarRosco() {
         divLetra.id = `letra-${index}`;
         
         const angulo = (index / totalLetras) * (Math.PI * 2) - (Math.PI / 2);
-        const x = centroX + radio * Math.cos(angulo) - 20;
-        const y = centroY + radio * Math.sin(angulo) - 20;
+        
+        // Restamos 25 porque la letra ahora mide 50x50, así centramos su medio
+        const x = centroX + radio * Math.cos(angulo) - 25;
+        const y = centroY + radio * Math.sin(angulo) - 25;
 
         divLetra.style.left = `${x}px`;
         divLetra.style.top = `${y}px`;
