@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego El Rosco</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="contenedor-principal">
+        <div class="rosco-container" id="rosco">
+            </div>
+
+        <div class="panel-juego">
+            <h2 id="letra-actual">A</h2>
+            <p id="definicion-actual">Cargando definición...</p>
+            <p id="respuesta-secreta" class="oculto">Respuesta: <span></span></p>
+
+            <div class="controles">
+                <button id="btn-correcto" class="btn verde">Correcto</button>
+                <button id="btn-pasapalabra" class="btn azul">Pasapalabra</button>
+                <button id="btn-incorrecto" class="btn rojo">Incorrecto</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="preguntas.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
