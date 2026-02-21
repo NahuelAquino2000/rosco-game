@@ -2,16 +2,21 @@ const contenedorRosco = document.getElementById('rosco');
 const displayLetra = document.getElementById('letra-actual');
 const displayDefinicion = document.getElementById('definicion-actual');
 const displayRespuesta = document.querySelector('#respuesta-secreta span');
+const displayTiempo = document.getElementById('tiempo-restante');
 
 let indiceActual = 0;
-// Estados posibles: 'pendiente', 'correcto', 'incorrecto', 'pasapalabra'
 let estadoJuego = new Array(roscoData.length).fill('pendiente'); 
+
+// --- VARIABLES DEL CRONÓMETRO ---
+let tiempo = 150; // Segundos totales
+let intervaloReloj;
+let juegoTerminado = false;
 
 // Dibujar el círculo perfecto
 function inicializarRosco() {
-    const radio = 160; // Distancia desde el centro hasta las letras
-    const centroX = 175; // Mitad del ancho del rosco-container (350/2)
-    const centroY = 175; // Mitad del alto del rosco-container
+    const radio = 160; 
+    const centroX = 175; 
+    const centroY = 175; 
     const totalLetras = roscoData.length;
 
     roscoData.forEach((item, index) => {
@@ -20,11 +25,7 @@ function inicializarRosco() {
         divLetra.innerText = item.letra;
         divLetra.id = `letra-${index}`;
         
-        // Matemática para colocar en círculo
-        // Restamos Math.PI / 2 para que empiece arriba en el centro
         const angulo = (index / totalLetras) * (Math.PI * 2) - (Math.PI / 2);
-        
-        // Restamos 20 porque la letra mide 40x40, así centramos exactamente su medio
         const x = centroX + radio * Math.cos(angulo) - 20;
         const y = centroY + radio * Math.sin(angulo) - 20;
 
@@ -33,18 +34,39 @@ function inicializarRosco() {
 
         contenedorRosco.appendChild(divLetra);
     });
+    
     actualizarPantalla();
+    iniciarReloj(); // Arrancamos el cronómetro al iniciar
+}
+
+// Lógica del cronómetro
+function iniciarReloj() {
+    displayTiempo.innerText = tiempo;
+    
+    intervaloReloj = setInterval(() => {
+        tiempo--;
+        displayTiempo.innerText = tiempo;
+
+        // Efecto visual cuando quedan 15 segundos o menos
+        if (tiempo <= 15) {
+            displayTiempo.classList.add('peligro');
+        }
+
+        // Si el tiempo llega a cero
+        if (tiempo <= 0) {
+            clearInterval(intervaloReloj);
+            finalizarJuego("¡Se acabó el tiempo!");
+        }
+    }, 1000); // 1000 milisegundos = 1 segundo
 }
 
 function actualizarPantalla() {
-    // Quitar la clase 'activa' de todas las letras para achicarlas
+    if (juegoTerminado) return;
+
     document.querySelectorAll('.letra').forEach(el => el.classList.remove('activa'));
-    
-    // Agrandar y resaltar solo la letra que toca jugar ahora
     const letraDOM = document.getElementById(`letra-${indiceActual}`);
     if(letraDOM) letraDOM.classList.add('activa');
 
-    // Cambiar los textos en el panel inferior
     const dataActual = roscoData[indiceActual];
     displayLetra.innerText = dataActual.letra;
     displayDefinicion.innerText = dataActual.definicion;
@@ -53,14 +75,12 @@ function actualizarPantalla() {
 
 function avanzarLetra() {
     let iteraciones = 0;
-    // Buscar la próxima letra que no esté respondida (es decir, saltamos las verdes y rojas)
     do {
         indiceActual = (indiceActual + 1) % roscoData.length;
         iteraciones++;
         
-        // Si ya dimos toda la vuelta y no hay letras pendientes
         if (iteraciones > roscoData.length) {
-            alert("¡Fin del juego! El rosco está completo.");
+            finalizarJuego("¡Fin del juego! El rosco está completo.");
             return;
         }
     } while (estadoJuego[indiceActual] === 'correcto' || estadoJuego[indiceActual] === 'incorrecto');
@@ -69,15 +89,30 @@ function avanzarLetra() {
 }
 
 function responder(estado) {
+    if (juegoTerminado) return; // Si el juego terminó, los botones no hacen nada
+
     estadoJuego[indiceActual] = estado;
     const letraDOM = document.getElementById(`letra-${indiceActual}`);
     
-    // Limpiar colores anteriores (por si antes le habíamos dado a 'pasapalabra')
     letraDOM.classList.remove('pasapalabra', 'correcto', 'incorrecto');
-    // Aplicar el nuevo color
     letraDOM.classList.add(estado);
 
     avanzarLetra();
+}
+
+function finalizarJuego(mensaje) {
+    juegoTerminado = true;
+    clearInterval(intervaloReloj); // Frena el cronómetro
+    
+    // Calcular aciertos y errores
+    const aciertos = estadoJuego.filter(e => e === 'correcto').length;
+    const errores = estadoJuego.filter(e => e === 'incorrecto').length;
+    const sinResponder = estadoJuego.filter(e => e === 'pendiente' || e === 'pasapalabra').length;
+
+    // Pequeño retraso para que la interfaz se actualice antes de la alerta
+    setTimeout(() => {
+        alert(`${mensaje}\n\nAciertos: ${aciertos}\nErrores: ${errores}\nSin responder: ${sinResponder}`);
+    }, 100);
 }
 
 // Conectar los botones con la lógica
