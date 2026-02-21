@@ -3,6 +3,8 @@ const displayLetra = document.getElementById('letra-actual');
 const displayDefinicion = document.getElementById('definicion-actual');
 const displayRespuesta = document.querySelector('#respuesta-secreta span');
 const displayTiempo = document.getElementById('tiempo-restante');
+const btnToggleTextos = document.getElementById('btn-toggle-textos');
+const bloqueTextos = document.getElementById('bloque-textos');
 
 let indiceActual = 0;
 let estadoJuego = new Array(roscoData.length).fill('pendiente'); 
@@ -114,6 +116,19 @@ function finalizarJuego(mensaje) {
         alert(`${mensaje}\n\nAciertos: ${aciertos}\nErrores: ${errores}\nSin responder: ${sinResponder}`);
     }, 100);
 }
+
+// Lógica para el botón de ocultar/mostrar textos
+btnToggleTextos.addEventListener('click', () => {
+    // La función 'toggle' pone la clase si no está, y la saca si está
+    bloqueTextos.classList.toggle('escondido');
+    
+    // Cambiamos el texto del botón según el estado
+    if (bloqueTextos.classList.contains('escondido')) {
+        btnToggleTextos.innerText = 'Mostrar Textos';
+    } else {
+        btnToggleTextos.innerText = 'Ocultar Textos';
+    }
+});
 
 // Conectar los botones con la lógica
 document.getElementById('btn-correcto').addEventListener('click', () => responder('correcto'));
