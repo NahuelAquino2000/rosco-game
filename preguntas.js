@@ -91,4 +91,15 @@ const roscoData3 = [
     { letra: "Z", respuesta: "Zoro", definicion: "Empieza con Z: Cosplay de Nahuel en alguna Ero..." }
 ];
 
-// --- SELE
+// --- SELECCIÓN ALEATORIA ---
+// Guardamos los 3 roscos en una lista
+const todosLosRoscos = [roscoData1, roscoData2, roscoData3];
+
+// Elegimos uno al azar. Math.random() elige un número y lo multiplicamos por la cantidad de roscos (3)
+const indiceAleatorio = Math.floor(Math.random() * todosLosRoscos.length);
+
+// Esta es la variable que tu script.js va a leer para armar el círculo
+const roscoData = todosLosRoscos[indiceAleatorio];
+
+// Opcional: Un console.log para que vos sepas qué rosco tocó si abrís la consola (F12)
+console.log("Se cargó el Rosco número: " + (indiceAleatorio + 1));
