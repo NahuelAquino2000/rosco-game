@@ -68,7 +68,7 @@ const roscoData3 = [
     { letra: "D", respuesta: "Donkey Kong", definicion: "Empieza con D: Mono discapacitado." },
     { letra: "E", respuesta: "Ekko", definicion: "Empieza con E: Puede retroceder el tiempo." },
     { letra: "F", respuesta: "Fer Palacio Remix", definicion: "Empieza con F: DJ favorito de Nahuel." },
-    { letra: "G", respuesta: "Engomado", definicion: "Empieza con E: Casas anda re..." },
+    { letra: "G", respuesta: "Engomado", definicion: "Contiene G: Casas anda re..." },
     { letra: "H", respuesta: "Nacho", definicion: "Contiene H: Nombre del primo de Tomy (apodo)" },
     { letra: "I", respuesta: "Final Fantasy Tactics", definicion: "Contiene I: Videojuego de rol táctico que se desarrolla en un ambiente rotacional tridimensional isométrico, con figuras pixelart." },
     { letra: "J", respuesta: "Julio Cesar", definicion: "Empieza con J: Nombre del Papá de Tomy." },
